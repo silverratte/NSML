@@ -4,13 +4,18 @@ import math as m
 tf.set_random_seed(777)
 
 
-def MinMaxScaler(data):
+def normalize(data):
     numerator = data - np.min(data, 0)
     denominator = np.max(data, 0) - np.min(data, 0)
     return numerator / (denominator + 1e-7)
 
-xy = np.loadtxt('user_dataset.csv', delimiter=',', dtype=np.float32)
+def rev_normalize(data, alist):
+    result = np.min(alist) + data * (np.max(alist) - np.min(alist))
+    return result
 
+xy = np.loadtxt('user_dataset.csv', delimiter=',', dtype=np.float32)
+t_y = xy[:,[0]]
+xy = normalize(xy)
 x_data = xy[:,1:5]
 y_data = xy[:,[0]]
 
@@ -58,7 +63,9 @@ with tf.Session() as sess:
                 step, loss, acc))
 
     pred = sess.run(prediction, feed_dict={X: x_data})
-    pred = sess.run(prediction, feed_dict={X: [[3,1,2,1]]})
+    pred = sess.run(prediction, feed_dict={X: [[2,1,1,1]]})
+    pred = rev_normalize(pred, t_y)
+    pred = [int(pred)]
     print("Test:",pred)
 
     fr = np.loadtxt('restaurant_dataset.csv', delimiter=',', dtype=np.str)

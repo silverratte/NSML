@@ -62,8 +62,7 @@ with tf.Session() as sess:
             print("Step: {:5}\tCost: {:.3f}\tAcc: {:.2%}".format(
                 step, loss, acc))
 
-    pred = sess.run(prediction, feed_dict={X: x_data})
-    pred = sess.run(prediction, feed_dict={X: [[2,1,1,1]]})
+    pred = sess.run(prediction, feed_dict={X: [[3,1,2,1]]})
     pred = rev_normalize(pred, t_y)
     pred = [int(pred)]
     print("Test:",pred)

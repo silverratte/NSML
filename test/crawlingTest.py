@@ -46,7 +46,8 @@ def getReviewResult(CODE,CONTENT):
             
             page = int(page)
             reple = li.find('div',class_='score_reple').find('p').get_text()
-            #리뷰항목만 가져옴
+            reple= reple .replace(",","")
+            #자연어처리할때 쉼표때문에 문제가생겨 리뷰의 쉼표없앰
             score = li.find('div',class_='star_score').find('em').get_text()
             #평점항목만 가져옴
             reviewArray.insert(i,reple)
